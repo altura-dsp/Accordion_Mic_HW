@@ -1,0 +1,135 @@
+{
+  "TL072": {
+    "kicad_lib": "Amplifier_Operational",
+    "kicad_symbol": "TL072",
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "NE5532": {
+    "kicad_lib": "Amplifier_Operational",
+    "kicad_symbol": "NE5532",
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "PCM3060": {
+    "kicad_footprint": "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm"
+  },
+  "RP2350": {
+    "kicad_footprint": "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm"
+  },
+  "Jack_6.35mm": {
+    "kicad_lib": "Connector_Audio",
+    "kicad_symbol": "AudioJack2",
+    "kicad_footprint": "Connector_Audio:Jack_6.35mm_Neutrik_NMJ4HCD2"
+  },
+  "EC11": {
+    "kicad_lib": "Device",
+    "kicad_symbol": "RotaryEncoder_Switch",
+    "kicad_footprint": "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm"
+  },
+  "74HC14": {
+    "kicad_lib": "74xx",
+    "kicad_symbol": "74HC14",
+    "kicad_footprint": "Package_DIP:DIP-14_W7.62mm"
+  },
+  "ICL7660S": {
+    "kicad_lib": "Regulator_SwitchedCapacitor",
+    "kicad_symbol": "ICL7660",
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "OPA1612": {
+    "kicad_footprint": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
+  },
+  "PCM1808": {
+    "kicad_footprint": "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
+  },
+  "PCM5102": {
+    "kicad_footprint": "Package_SO:TSSOP-20_4.4x6.5mm_P0.65mm"
+  },
+  "CS4272": {
+    "kicad_footprint": "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm"
+  },
+  "AK4558": {
+    "kicad_footprint": "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm"
+  },
+  "THAT1510": {
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "NJM4556A": {
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "MT3608": {
+    "kicad_footprint": "Package_TO_SOT_SMD:SOT-23-6"
+  },
+  "LT1054": {
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "TC1044S": {
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "LM317": {
+    "kicad_footprint": "Package_TO_SOT_THT:TO-220-3_Vertical"
+  },
+  "LM337": {
+    "kicad_footprint": "Package_TO_SOT_THT:TO-220-3_Vertical"
+  },
+  "AP2112K": {
+    "kicad_footprint": "Package_TO_SOT_SMD:SOT-23-5"
+  },
+  "ADuM3160": {
+    "kicad_footprint": "Package_SO:SOIC-16W_7.5x10.3mm_P1.27mm"
+  },
+  "ADuM4160": {
+    "kicad_footprint": "Package_SO:SOIC-16W_7.5x10.3mm_P1.27mm"
+  },
+  "MCP23017": {
+    "kicad_footprint": "Package_DIP:DIP-28_W7.62mm"
+  },
+  "ESP32": {
+    "kicad_footprint": "RF_Module:ESP32-WROOM-32"
+  },
+  "Si5351": {
+    "kicad_footprint": "Package_SO:MSOP-10_3x3mm_P0.5mm"
+  },
+  "74AHCT125": {
+    "kicad_footprint": "Package_DIP:DIP-14_W7.62mm"
+  },
+  "6N137": {
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "HEF4053BT": {
+    "kicad_footprint": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm"
+  },
+  "HEF4052BT": {
+    "kicad_footprint": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm"
+  },
+  "NJM2122": {
+    "kicad_footprint": "Package_DIP:DIP-8_W7.62mm"
+  },
+  "74HC595": {
+    "kicad_footprint": "Package_DIP:DIP-16_W7.62mm"
+  },
+  "WS2812B": {
+    "kicad_lib": "LED",
+    "kicad_symbol": "WS2812B",
+    "kicad_footprint": "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm"
+  },
+  "SSD1306": {
+    "kicad_lib": "Connector_Generic",
+    "kicad_symbol": "Conn_01x04",
+    "kicad_footprint": "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+  },
+  "IRLML6401": {
+    "kicad_lib": "Transistor_FET",
+    "kicad_symbol": "IRLML6401",
+    "kicad_footprint": "Package_TO_SOT_SMD:SOT-23"
+  },
+  "SW_SPST": {
+    "kicad_lib": "Switch",
+    "kicad_symbol": "SW_SPST",
+    "kicad_footprint": "Button_Switch_THT:SW_PUSH_6mm"
+  },
+  "JACK_DC": {
+    "kicad_lib": "Connector_Generic",
+    "kicad_symbol": "Conn_01x02",
+    "kicad_footprint": "Connector_BarrelJack:BarrelJack_Horizontal"
+  }
+}

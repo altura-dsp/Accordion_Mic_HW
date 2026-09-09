@@ -1,0 +1,150 @@
+# DOMINIO: Touring Grade
+#
+# V1.1 (2026-08-22, FASE 3 Red Team): 5 targets nuevos (powerup_transient,
+# gain_band, thd_1khz, cmrr_common_mode, pop_plugin) -> gate 8/8. Extensiones
+# de motor usadas (agnosticas, tools/hw_spice_simulator.py): powerup+uic,
+# settle_time_s, band_points_hz/band_tolerance_db, input_nodes (modo comun),
+# output_node_cold (medicion diferencial).
+targets:
+  input_hpf_cutoff:
+    description: "Corte del filtro anti-fuelle a la entrada (C 100 nF + R 10 k = 159 Hz). Decisión Jose 2026-08-22: 159 Hz DEFINITIVO (captura treble-grille)."
+    stage: input_stage
+    analysis: ac
+    # HPF MIC1 -> MIX_NODE1 (C1 100nF + R7 10k = 159 Hz). NO usar MIX_NODE:
+    # es tierra virtual del sumador inversor U1A (ruido de Avol finito), el
+    # HPF real vive en MIX_NODE1. N_7 (salida sumador) da el mismo cutoff con
+    # gain -3x adicional. Verificado: motor mide 160.2 Hz en MIX_NODE1.
+    input_node: MIC1
+    output_node: MIX_NODE1
+    thresholds:
+      cutoff_frequency_hz: 159.0
+
+  output_lpf_cutoff:
+    description: "Corte del filtro anti-hiss a la salida (R 3.3 k + C 3.3 nF = 14.6 kHz), antes de que la señal llegue al XLR."
+    stage: output_stage
+    analysis: ac
+    # LPF anti-hiss: wiper(RV_VOL) -> R_LPF 3.3k + C_LPF 3.3nF a masa -> buffer Op-B.
+    # LPF_IN = wiper (antes de R_LPF); LPF_OUT = OUT_B (U1 pin 7). Fc teorica
+    # 1/(2*pi*3300*3.3nF) = 14.6 kHz. NO usar MIX_NODE (tierra virtual del sumador,
+    # da cutoff espurio ~24 Hz) ni XLR_OUT (nodo del conector, no el LPF).
+    input_node: LPF_IN
+    output_node: LPF_OUT
+    simulation:
+      # El Acordeon es single-supply +12V con midrail V_BIAS=6V. El Vstim necesita
+      # un componente DC = V_BIAS para que el .OP polarice el Op-B en su region
+      # lineal (sin DC, el op-amp satura en el riel y el .AC devuelve 0).
+      dc_offset: 6.0
+      nodeset:
+        v_bias: 6.0
+        v_phantom_12v: 12.0
+    thresholds:
+      cutoff_frequency_hz: 14600.0
+
+  # TODO (gap testbench motor): inyectar ripple en SERIE con XLR_OUT (P48), no a masa
+  power_ripple_zener:
+    description: "Regulación del zener 1N4742A: el riel interno debe quedarse en la ventana 11.5–12.5 V."
+    stage: power_stage
+    analysis: transient
+    input_node: XLR_OUT
+    output_node: V_PHANTOM_12V
+    simulation:
+      amplitude: 48.0
+      frequency: 0.01
+      cycles: 1
+    thresholds:
+      max_voltage: 12.5
+      min_voltage: 11.5
+
+  # ── FASE 3 Red Team (F3.2): 5 targets nuevos ─────────────────────────────────
+
+  powerup_transient:
+    description: "Encendido real desde cero (uic): caps descargados, phantom conectado. El riel debe estar regulado dentro de ventana para t > 500 ms (τ = 7.03 k·100 µF = 0.7 s, el zener clampa a ~0.2 s)."
+    stage: power_stage
+    analysis: transient
+    input_node: V_PHANTOM_12V        # == output_node -> probe-only: observar, no inyectar
+    output_node: V_PHANTOM_12V
+    simulation:
+      powerup: true                  # uic: estado cero + fuentes on = rampa de encendido real
+      end_time_s: 2.0                # ~3 tau del LC phantom: sobra para ver el settling
+      settle_time_s: 0.5             # criterio del PLAN: ventana válida solo para t > 500 ms
+      n_samples: 4000                # paso 0.5 ms
+    thresholds:
+      min_voltage: 11.5
+      max_voltage: 12.5
+
+  gain_band:
+    description: "Planicie en la banda útil 300 Hz–10 kHz (MIC1 → XLR HOT). El margen ±1.0 dB — no ±0.5 — es consecuencia física de los corners firmados (HPF 159 Hz / LPF 14.6 kHz): caída acumulada ~1.1 dB en los extremos."
+    stage: signal_chain
+    analysis: ac
+    input_node: MIC1
+    output_node: XLR_OUT
+    simulation:
+      band_points_hz: [300, 1000, 10000]
+      # Sin seeds el .OP deja los op-amps saturados y el .AC mide una cadena
+      # muerta (~-60 dB) — mismo patrón documentado en output_lpf_cutoff.
+      nodeset:
+        v_bias: 6.0
+        v_phantom_12v: 12.0
+    thresholds:
+      band_tolerance_db: 1.0         # banda oficial V1.1 (F5.1): ±0.5 dB del PLAN V1.0
+                                     # inalcanzable con HPF 159 Hz DEFINITIVO (Jose, 2026-08-22)
+
+  thd_1khz:
+    description: "Distorsión armónica total a 1 kHz con 10 mVpk en MIC1 (≈30 mVpk en HOT, ×3 verano): nivel nominal de cápsula EM289. Medido 0.02 %. A 1 Vpk (34 dB sobre el nivel real) el harness behavioral (UniversalOpAmp + zener en rodilla) deja un piso de h2 ~0.26 % que NO es del diseño: la spec 0.1 % del AH se certifica con banco F6 e instrumento real."
+    stage: signal_chain
+    analysis: transient
+    input_node: MIC1
+    output_node: XLR_OUT
+    simulation:
+      amplitude: 0.01
+      frequency: 1000
+      cycles: 8
+      # El Vstim SIN offset DC es un corto a masa que cuelga de MIC1 vía
+      # R_MIC1_BIAS 33k -> carga el divisor de V_BIAS -> midrail colapsado
+      # (2.4 V, hallazgo F3.2). Con offset = V_BIAS el nodo vive a su DC real.
+      dc_offset: 6.0
+      # El C_BLOCK de 47 µF de la salida se carga con τ ≈ 165 ms (100 Ω + 6.81 k
+      # de la consola): con el warmup por defecto (2 ciclos = 2 ms) el FFT ve el
+      # ramp del cap y escupe un THD falso de ~8 %. 1000 ciclos = 1 s ≈ 6 τ.
+      warmup_cycles: 1000
+      n_per_cycle: 256               # grilla fina (516k muestras): con 128 el
+                                     # remuestreo interp deja un piso ~0.25 %
+      nodeset:
+        v_bias: 6.0
+        v_phantom_12v: 12.0
+    thresholds:
+      max_thd: 0.1                   # AH §Umbrales Touring Grade: THD+N < 0.1 % @ 1 kHz
+
+  cmrr_common_mode:
+    description: "Simetría del puerto balanceado: misma señal en HOT y COLD (modo común); el residuo diferencial V(HOT)−V(COLD) a 1 kHz debe quedar ≥34 dB bajo la ganancia diferencial nominal (≈+15.6 dB = ×6). La sim valida la TOPOLOGÍA; el matching 0.1 % de R_PH es constraint de BOM."
+    stage: signal_chain
+    analysis: ac
+    input_nodes: [XLR_OUT, XLR_COLD]   # misma fuente en ambos pines = modo común
+    output_node: XLR_OUT
+    output_node_cold: XLR_COLD          # medir diferencial V(hot)−V(cold)
+    simulation:
+      dc_offset: 12.5                 # los pines VIVEN a ~12.4 V DC (por ahí ENTRA la
+                                      # alimentación phantom); forzarlos a 0 colapsaría
+                                      # el riel y la sim moriría
+      nodeset:
+        v_bias: 6.0
+        v_phantom_12v: 12.0
+    thresholds:
+      attenuation_db_at_hz: 1000
+      attenuation_db_limit: -18.0     # = nominal +15.6 dB − 34 dB CMRR (AH, R 0.1 %)
+
+  pop_plugin:
+    description: "Pop de conexión: pico DIFERENCIAL HOT−COLD al energizar el phantom desde cero (uic). Decide el mute F5.2: >100 mV → JFET J111; ≤100 mV → excepción P1 documentada."
+    stage: signal_chain
+    analysis: transient
+    input_node: XLR_OUT              # == output_node + output_node_cold: sin Vstim,
+    output_node: XLR_OUT             # el "estímulo" es el propio encendido (powerup)
+    output_node_cold: XLR_COLD
+    simulation:
+      powerup: true
+      end_time_s: 2.0
+      settle_time_s: 0.0             # el pop ES el transitorio: pico en todo el ramp
+      n_samples: 4000
+    thresholds:
+      max_voltage: 0.1               # pico diferencial < 100 mV (PLAN F3.2/F5.2)
+
