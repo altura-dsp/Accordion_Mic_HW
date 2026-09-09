@@ -107,7 +107,7 @@ El potenciómetro `RV_VOL` regula la salida de mezcla hacia el driver balanceado
 - **Metas de Filtros:** 
   - HPF de entrada a **159 Hz** para rechazar ruido de baja frecuencia del fuelle (medición: cruce descendente en bandas bajas, ej. 0.1 Hz). **[DECISIÓN FIRMADA Jose 2026-08-22: 159 Hz DEFINITIVO]** — C_AC 100 nF inmutable, colocación de cápsulas en el lado de agudos (treble-grille); se renuncia explícitamente a la alternativa ~72 Hz (C_AC 220 nF) para capturar la mano izquierda. Verificado SPICE: 159.2 Hz.
   - LPF anti-hiss a **14.6 kHz**.
-- **Umbrales Touring Grade:** THD+N **< 0.1 % @ 1 kHz**, Respuesta de Frecuencia Plana en la banda de paso (300 Hz - 10 kHz).
+- **Umbrales Touring Grade:** THD+N **< 0.1 % @ 1 kHz**, Respuesta de Frecuencia Plana en la banda de paso (300 Hz - 10 kHz). Riel phantom regulado en ventana 11.5–12.5 V (ripple zener y powerup transitorio); residuo de modo-común (CMRR) ≤ −18 dB @ 1 kHz.
 
 ## 6. BOM (SKiDL-ready) — alimenta inventario_bruto.csv
 
