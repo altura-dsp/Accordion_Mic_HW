@@ -1,6 +1,6 @@
 # 📋 SPICE Report — 5_Acordeon_Mic
 
-- **Fecha:** 2026-09-08 20:43:20
+- **Fecha:** 2026-09-08 21:18:01
 - **Dominio:** Touring Grade (hardware analógico)
 - **Veredicto global:** ✅ **PASS** (8/8 targets OK)
 

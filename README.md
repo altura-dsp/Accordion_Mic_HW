@@ -2,7 +2,7 @@
 
 > Condenser microphone capture board for digital accordion — I2S MEMS, hardware design only.
 
-**Status:** Hardware design release · **Target:** Standalone hardware (no firmware in this repo) · **License:** [GPL-3.0](LICENSE)
+**Status:** Hardware design release · **Target:** Standalone hardware (no firmware in this repo) · **License:** [CERN-OHL-S-2.0](LICENSE)
 
 ## ☕ Support this project
 
@@ -31,7 +31,7 @@ Schematics, netlists and the SKiDL source live in [`Hardware_PCB/`](Hardware_PCB
 
 Copyright (C) 2026 altura-dsp
 
-Released under the GNU General Public License v3 — see [LICENSE](LICENSE).
+Hardware design files — netlists, schematics, BOM, wiring scripts and documentation — are released under the **CERN Open Hardware Licence Version 2 — Strongly Reciprocal ([CERN-OHL-S-2.0](LICENSE))**. The licence's definition of *Source* covers the scripts that generate the design, so the whole repository ships under a single licence.
 
 ---
 

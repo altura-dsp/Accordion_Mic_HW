@@ -2,7 +2,7 @@
 
 **Fecha de Generación:** 2026-09-08
 
-**Total de Componentes Únicos:** 26
+**Total de Componentes Únicos:** 25
 
 **Piezas Totales a Soldar:** 42
 
@@ -21,11 +21,10 @@
 | CAPACITOR | 3.3nF | THT | 1 | N/A | MANUAL_REQUIRED |
 | DIODO | 1N4742A | THT | 1 | N/A | MANUAL_REQUIRED |
 | IC | Primo_EM289 | THT | 3 | N/A | MANUAL_REQUIRED |
-| INDUCTOR | 600R | THT | 1 | N/A | Through hole |
-| INDUCTOR | 600R | THT | 1 | N/A | L0402 |
+| INDUCTOR | 600R | THT | 2 | N/A | MANUAL_REQUIRED |
 | OPAMP | OPA1642 | SMD | 1 | [201728](https://jlcpcb.com/partdetail/201728) | SOIC-8 |
 | OPAMP | TLE2072 | THT | 1 | [1346615](https://jlcpcb.com/partdetail/1346615) | PDIP-8 |
-| POTENCIOMETRO | POT_10K | THT | 1 | N/A | TS-1902A |
+| POTENCIOMETRO | POT_10K | THT | 1 | N/A | MANUAL_REQUIRED |
 | RESISTOR | 10k | THT | 5 | N/A | MANUAL_REQUIRED |
 | RESISTOR | 33k | THT | 3 | N/A | MANUAL_REQUIRED |
 | RESISTOR | 100k | THT | 2 | N/A | MANUAL_REQUIRED |
@@ -35,6 +34,6 @@
 | RESISTOR | 1Meg | THT | 1 | N/A | MANUAL_REQUIRED |
 | RESISTOR | 3.3k | THT | 1 | N/A | MANUAL_REQUIRED |
 | RESISTOR | 30k | THT | 1 | N/A | MANUAL_REQUIRED |
-| SWITCH | SPDT | THT | 1 | N/A | Through hole |
+| SWITCH | SPDT | THT | 1 | N/A | MANUAL_REQUIRED |
 | TRANSISTOR | J111 | THT | 1 | [274642](https://jlcpcb.com/partdetail/274642) | TO-92-3L |
 | XLR | NC3MAH | THT | 1 | N/A | MANUAL_REQUIRED |
